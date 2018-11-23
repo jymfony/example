@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+require('jymfony/src/Component/Autoloader');
+
+const ArgvInput = Jymfony.Component.Console.Input.ArgvInput;
+const Request = Jymfony.Component.HttpFoundation.Request;
+const Kernel = App.Kernel;
+
+Request.setTrustedProxies(['172.16.0.0/16'], Request.HEADER_X_FORWARDED_AWS_ELB);
+
+let input = new ArgvInput();
+let env = input.getParameterOption([ '--env', '-e' ], process.env.APP_ENV ? process.env.APP_ENV : 'dev');
+let debug = '0' !== process.env.APP_DEBUG && ! input.hasParameterOption([ '--no-debug', '' ]) && 'prod' !== env;
+
+const kernel = new Kernel(env, debug);
+kernel.boot()
+    .then(() => {
+        const application = kernel.container.get('console.application');
+        application.run(input);
+    })
+    .catch(e => {
+        console.log(e);
+        process.exit(1);
+    })
+;
