@@ -4,7 +4,7 @@ const BinaryFileResponse = Jymfony.Component.HttpFoundation.BinaryFileResponse;
 /**
  * @memberOf App.Controller
  */
-class ApplicationController {
+export default class ApplicationController {
     /**
      * @returns {Jymfony.Component.HttpFoundation.Response}
      */
@@ -16,5 +16,3 @@ class ApplicationController {
         );
     }
 }
-
-module.exports = ApplicationController;

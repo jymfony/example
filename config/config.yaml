@@ -1,0 +1,13 @@
+framework:
+    router:
+        resource: "kernel:loadRoutes"
+        type: service
+
+    http_server: ~
+    logger:
+        handlers:
+            console:
+                type: console
+                bubble: false
+                channels: [ '!event' ]
+                formatter: 'jymfony.logger.formatter.json'

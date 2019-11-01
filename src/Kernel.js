@@ -1,14 +1,13 @@
-const Request = Jymfony.Component.HttpFoundation.Request;
+import { existsSync } from 'fs';
+
 const BaseKernel = Jymfony.Component.Kernel.Kernel;
 const Route = Jymfony.Component.Routing.Route;
 const RouteCollection = Jymfony.Component.Routing.RouteCollection;
 
-const fs = require('fs');
-
 /**
  * @memberOf App
  */
-class Kernel extends BaseKernel {
+export default class Kernel extends BaseKernel {
     /**
      * @inheritdoc
      */
@@ -20,12 +19,12 @@ class Kernel extends BaseKernel {
      * @inheritdoc
      */
     _configureContainer(container, loader) {
-        loader.load(__dirname + '/../config/config.json');
-        if (fs.existsSync(__dirname + '/../config/' + container.getParameter('kernel.environment') + '/config.json')) {
-            loader.load(__dirname + '/../config/' + container.getParameter('kernel.environment') + '/config.json');
+        loader.load(__dirname + '/../config/config.yaml');
+        if (existsSync(__dirname + '/../config/' + container.getParameter('kernel.environment') + '/config.yaml')) {
+            loader.load(__dirname + '/../config/' + container.getParameter('kernel.environment') + '/config.yaml');
         }
 
-        loader.load(__dirname + '/../config/services.js');
+        loader.load(__dirname + '/../config/services.yaml');
     }
 
     loadRoutes() {
@@ -40,5 +39,3 @@ class Kernel extends BaseKernel {
         return collection;
     }
 }
-
-module.exports = Kernel;
